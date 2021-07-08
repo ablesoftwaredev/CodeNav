@@ -65,6 +65,7 @@ namespace CodeNav.Models
         }
 
         #region Status Image
+
         private ImageMoniker _statusMoniker;
         public ImageMoniker StatusMoniker
         {
@@ -108,7 +109,8 @@ namespace CodeNav.Models
                 NotifyOfPropertyChange();
             }
         }
-        #endregion
+
+        #endregion Status Image
 
         public List<BookmarkStyle> BookmarkStyles
             => Control.CodeDocumentViewModel.BookmarkStyles;
@@ -148,6 +150,7 @@ namespace CodeNav.Models
         }
 
         #region Fonts
+
         private float _fontSize;
         public float FontSize
         {
@@ -217,9 +220,11 @@ namespace CodeNav.Models
                 NotifyOfPropertyChange();
             }
         }
-        #endregion
+
+        #endregion Fonts
 
         #region IsVisible
+
         private Visibility _visibility;
         public Visibility IsVisible
         {
@@ -233,9 +238,11 @@ namespace CodeNav.Models
                 NotifyOfPropertyChange();
             }
         }
-        #endregion
+
+        #endregion IsVisible
 
         #region Foreground
+
         private Color _foregroundColor;
         public Color ForegroundColor
         {
@@ -257,9 +264,11 @@ namespace CodeNav.Models
                 return ColorHelper.ToBrush(_foregroundColor);
             }
         }
-        #endregion
+
+        #endregion Foreground
 
         #region Background
+
         private Color _backgroundColor;
         public Color BackgroundColor
         {
@@ -294,15 +303,18 @@ namespace CodeNav.Models
         }
 
         public SolidColorBrush NameBackgroundBrush => ColorHelper.ToBrush(_nameBackgroundColor);
-        #endregion
+
+        #endregion Background
 
         #region Commands
+
         private readonly DelegateCommand _clickItemCommand;
         public ICommand ClickItemCommand => _clickItemCommand;
         public void ClickItem(object args)
         {
             _ = HistoryHelper.AddItemToHistory(this);
             _ = DocumentHelper.ScrollToLine(StartLinePosition);
+            _ = DocumentHelper.SelectLines(Span);
         }
 
         private readonly DelegateCommand _goToDefinitionCommand;
@@ -426,7 +438,8 @@ namespace CodeNav.Models
             _ = new CustomizeBookmarkStylesWindow(Control.CodeDocumentViewModel).ShowDialog();
             _ = BookmarkHelper.ApplyBookmarks(Control.CodeDocumentViewModel);
         }
-        #endregion
+
+        #endregion Commands
 
         private async Task SaveToSolutionStorage()
         {
@@ -451,13 +464,13 @@ namespace CodeNav.Models
     {
         public bool Equals(CodeItem x, CodeItem y)
         {
-            //Check whether the objects are the same object. 
+            //Check whether the objects are the same object.
             if (ReferenceEquals(x, y))
             {
                 return true;
             }
 
-            //Check whether the products' properties are equal. 
+            //Check whether the products' properties are equal.
             var membersAreEqual = true;
             if (x is CodeClassItem && y is CodeClassItem)
             {
